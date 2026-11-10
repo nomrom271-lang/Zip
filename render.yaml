@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: ai-studio
-    runtime: node
-    buildCommand: "echo no build"
-    startCommand: node server.js
-    envVars:
-      - key: FREEMODEL_API_KEY
-        sync: false
