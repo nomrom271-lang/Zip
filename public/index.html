@@ -1,1 +1,90 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1115">
+<title>AI Studio — Code, Design, PDF & ZIP</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237c8cff'/%3E%3Ctext x='32' y='43' font-size='32' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'%3EAI%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<div class="app">
+  <aside class="side" id="side">
+    <div class="top">
+      <div class="brand"><i>✦</i> AI Studio</div>
+      <button class="pri" id="newChat">＋ Naya chat</button>
+    </div>
+    <div style="padding:0 12px 8px"><input id="chatSearch" placeholder="🔎 Chats search…"></div>
+    <div class="chats" id="chatList"></div>
+    <div class="foot">Code • Design • PDF • ZIP<br>Powered by freemodel.in</div>
+  </aside>
 
+  <main class="main">
+    <div class="bar">
+      <button class="menu ghost" id="menuBtn">☰</button>
+      <div class="seg" id="modeSeg"><button data-m="auto" class="on">⚡ Auto</button><button data-m="manual">Manual</button></div>
+      <input id="modelIn" list="modelList" placeholder="model chuno…" style="display:none" autocomplete="off">
+      <datalist id="modelList"></datalist>
+      <span class="sp"></span>
+      <button id="projBtn" title="Project files / ZIP">📦 <span id="projCnt">0</span></button>
+      <button id="setBtn" title="Settings">⚙</button>
+    </div>
+
+    <div class="msgs" id="msgs"><div class="wrap" id="wrap"></div></div>
+
+    <div class="comp">
+      <div id="tplMenu" class="tpl"></div>
+      <div class="cbox" id="cbox">
+        <div class="atts" id="atts" style="display:none"></div>
+        <div class="crow">
+          <button class="ghost" id="attBtn" title="File / ZIP / image jodo">📎</button>
+          <button class="ghost" id="tplBtn" title="Ready prompts">✨</button>
+          <textarea id="inp" rows="1" placeholder="Kuch bhi likho — code, ZIP, design, PDF, ya image bhejo…"></textarea>
+          <button class="ghost" id="micBtn" title="Voice typing">🎤</button>
+          <button class="pri" id="sendBtn" title="Bhejo">➤</button>
+        </div>
+      </div>
+      <div class="hint" id="hint">Enter = bhejo • Shift+Enter = nayi line • 📎 se ZIP (50 MB tak), image ya file jodo</div>
+      <input type="file" id="file" multiple hidden>
+    </div>
+  </main>
+</div>
+
+<div class="ov" id="setOv"><div class="modal">
+  <h3>⚙ Settings</h3>
+  <div class="f"><label>API Key (freemodel.in) — <a href="https://freemodel.in/register" target="_blank" rel="noopener" style="color:var(--acc)">free key yahan se lo</a></label>
+    <div class="row"><input id="sKey" type="password" placeholder="fm_live_..." autocomplete="off"><button id="sShow">👁</button></div></div>
+  <div class="f"><label>API Base URL (khali chhodo = https://freemodel.in/v1)</label><input id="sBase" placeholder="https://freemodel.in/v1"></div>
+  <div class="f"><label>Coding mode (auto me strong coding models pehle try hote hain)</label>
+    <select id="sCoding"><option value="auto">Auto-detect</option><option value="on">Hamesha ON</option><option value="off">OFF</option></select></div>
+  <div class="f"><label>Auto-fix (errors khud pakad ke theek karwata hai)</label>
+    <select id="sFix"><option value="1">ON</option><option value="0">OFF</option></select></div>
+  <div class="f"><label>Theme</label><select id="sTheme"><option value="auto">Auto</option><option value="dark">Dark</option><option value="light">Light</option></select></div>
+  <div class="f"><label>Custom instructions (AI hamesha yeh follow karega — jaise "hamesha Hindi me short jawab do")</label><textarea id="sCustom" rows="3"></textarea></div>
+  <div class="row"><div class="f" style="flex:1"><label>Temperature (0–2)</label><input id="sTemp" type="number" step="0.1" min="0" max="2"></div>
+  <div class="f" style="flex:1"><label>Max output tokens</label><input id="sMax" type="number" step="1000" min="1000" max="64000"></div>
+  <div class="f" style="flex:1"><label>Voice language</label><select id="sLang"><option value="hi-IN">Hindi / Hinglish</option><option value="en-IN">English (India)</option><option value="en-US">English (US)</option></select></div></div>
+  <div class="f" id="passF" style="display:none"><label>App password</label><input id="sPass" type="password"></div>
+  <div class="row"><button id="sTest">🔌 Test connection</button><span id="sMsg" class="mut"></span></div>
+  <div class="row" style="margin-top:12px;flex-wrap:wrap"><button id="xMd">📝 Chat export (.md)</button><button id="xJson">💾 Backup</button><button id="xImp">📥 Restore</button><input type="file" id="impFile" accept=".json" hidden></div>
+  <div class="row end"><button id="sCancel">Band</button><button class="pri" id="sSave">Save</button></div>
+</div></div>
+
+<div class="ov" id="projOv"><div class="modal big">
+  <h3 id="pTitle">📦 Project</h3>
+  <div class="row" style="margin-bottom:10px;flex-wrap:wrap">
+    <input id="pName" style="max-width:240px" placeholder="project-name">
+    <button class="pri" id="pZip">⬇ ZIP download</button>
+    <button id="pNew">＋ File</button><button id="pLive">▶ Live Preview</button><button id="pClear">🗑 Khali</button>
+    <span id="pInfo" class="mut"></span>
+  </div>
+  <div class="pfiles"><div class="l" id="pList"></div><div style="display:flex;flex-direction:column;gap:8px;min-width:0"><div class="row"><button id="pSave">💾 Save</button><button id="pDl1">⬇ File</button><button id="pDel">🗑 Delete</button></div><textarea id="pView" spellcheck="false" placeholder="Left se file chuno — yahin edit karke Save kar sakte ho"></textarea></div></div>
+  <div class="row end"><button id="pClose">Band</button></div>
+</div></div>
+
+<div class="lb" id="lb"><img alt=""></div>
+<script src="app.js"></script>
+</body>
+</html>
